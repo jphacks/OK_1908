@@ -32,3 +32,6 @@
 
 .DS_Store
 Gemfile.lock
+
+# ignore ENV files
+.env
