@@ -1,0 +1,5 @@
+hello, world!
+<%= form_with url: root_path, method: :post, local: true do |f| %>
+  <%= f.text_field :sentence %>
+  <%= f.submit %>
+<% end %>
