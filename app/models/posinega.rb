@@ -1,0 +1,2 @@
+class Posinega < ApplicationRecord
+end
