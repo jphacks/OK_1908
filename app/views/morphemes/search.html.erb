@@ -1,6 +1,17 @@
 <%= form_with url: root_path, method: :get, local: true do |f| %>
-  <%= f.text_field :sentence %>
+  <%= f.text_field :keyword %>
   <%= f.submit %>
 <% end %>
 
 <%= @word_list %>
+
+<% if @tweets.present? %>
+  <h2>検索結果</h2>
+  <ul>
+    <% @tweets.each_with_index do |tweet, i| %>
+    <div class="list">
+      <li>Tweet<%= i %>: <%= tweet.contents %> <%= tweet.user_id %> <%= tweet.score%></li>
+    </div>
+    <% end %>
+  </ul>
+<% end %>
