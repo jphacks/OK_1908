@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_26_073034) do
+ActiveRecord::Schema.define(version: 2019_10_26_082141) do
 
   create_table "posinegas", force: :cascade do |t|
     t.string "word"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2019_10_26_073034) do
     t.string "item"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["word"], name: "index_posinegas_on_word"
   end
 
 end
