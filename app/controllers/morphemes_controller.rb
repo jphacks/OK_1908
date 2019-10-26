@@ -1,7 +1,5 @@
 class MorphemesController < ApplicationController
-  def analysis
-    sentence = params[:sentence]
-
+  def analysis(sentence)
     body = {"app_id": ENV['GOO_APP_ID'],
             "request_id": "record001",
             "sentence": sentence,
@@ -10,8 +8,12 @@ class MorphemesController < ApplicationController
 
     uri = URI('https://labs.goo.ne.jp/api/morph')
     @res = Net::HTTP.post_form(uri, body)
+    JSON.parse(@res.body)["word_list"]
   end
 
-  def post_goo
+  def search
+    @sentence = params[:sentence]
+    @word_list = analysis(@sentence)
   end
+  
 end
