@@ -58,6 +58,7 @@ class MorphemesController < ApplicationController
         end
         break if not scale
       end
+      @tweets.reject!{|tweet| tweet.score == nil}
       @tweets.sort_by! { |tweet| tweet.score }
     end
 
