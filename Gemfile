@@ -51,6 +51,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'pry-doc'
+  gem 'twitter'
 end
 
 group :test do
