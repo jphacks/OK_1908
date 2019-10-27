@@ -6,55 +6,51 @@
   <meta name="author" content="">
   <title>タイトル</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
-<main role="main" class="container">
+<div class="container">
   <div class="starter-template">
-    <h1>ついれびゅ!</h1>
-    <p class="lead">べ…別にあんたの評価なんて気にしてないんだからねっ！</p>
+    <img src="title.png">
+    <h1 style="margin-left: 50px; margin-bottom: 30px">〜 べ…別にあんたの評価なんて気にしてないんだからねっ！〜</h1>
+  <%= form_with url: root_path, method: :get, local: true do |f| %>
+    <div class="input-group">
+      <%= f.text_field :keyword, class: "form-control" %>
+      <span class="input-group-btn">
+        <%= button_tag "検索", type: 'submit', class: "btn btn-primary" %>
+      </span>
+    </div>
+  <% end %>
 
-    <%= form_with url: root_path, method: :get, local: true do |f| %>
-      <div class="input-group">
-        <%= f.text_field :keyword, class: "form-control" %>
-        <span class="input-group-btn">
-          <%= button_tag "検索", type: 'submit', class: "btn btn-primary" %>
-        </span>
+  <% if @tweets.present? %>
+    <div class="card card-body bg-light m-5">
+      <div class="card-title m-2">
+        <h3 class="text-center text-primary">高評価と予想されるtweet</h3>
       </div>
-    <% end %>
-
-    <% if @tweets.present? %>
-      <div class="card bg-light m-5">
-        <div class="card-title m-5">
-          <h3 class="text-center">高評価と予想されるtweet</h3>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <% @tweets.reverse.slice(0..2).each do |tweet| %>
-              <div class="col-md-4">
-                <%== tweet.tweet_html %>
-              </div>
-           <% end %>
+      <div class="card-text row">
+        <% @tweets.reverse.slice(0..2).each do |tweet| %>
+          <div class="card-text col-md-4">
+            <%== tweet.tweet_html %>
           </div>
-        </div>
+       <% end %>
       </div>
-      <div class="card bg-light m-5">
-        <div class="card-title m-5">
-          <h3 class="text-center">低評価と予想されるtweet</h3>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <% @tweets.slice(0..2).each do |tweet| %>
-              <div class="col-md-4">
-                <%== tweet.tweet_html %>
-              </div>
-            <% end %>
-          </div>
-        </div>
+    </div>
+    <div class="card card-body bg-light m-5">
+      <div class="card-title m-2">
+        <h3 class="text-center text-danger">低評価と予想されるtweet</h3>
       </div>
-    <% end %>
+        <div class="row">
+          <% @tweets.slice(0..2).each do |tweet| %>
+            <div class="col-md-4">
+              <%== tweet.tweet_html %>
+            </div>
+          <% end %>
+        </div>
+    </div>
+  <% end %>
   </div>
-</main>
+</div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
