@@ -34,20 +34,30 @@ class MorphemesController < ApplicationController
       config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
     end
 
-    get_tweet_num = 150
-    @tweets = []
-    tweet_text = ""
+    # get_tweet_num = 250
+    get_tweet_nums = [250, 200, 150, 100, 50]
     since_id = nil
     if params[:keyword].present?
-      tweets = client.search(params[:keyword], count: get_tweet_num, result_type: "recent", exclude: "retweets", since_id: since_id)
+      # ツイートの取得
+      tweets = client.search(params[:keyword], count: 250, result_type: "recent", exclude: "retweets", since_id: since_id)
       # 取得したツイートをモデルに渡す
-      tweets.take(get_tweet_num).each do |tw|
-        @tweet_html = get_tweet_html(tw.url.to_s)
-        tweet_text << tw.full_text + mark
-        tweet = Tweet.new(tw.full_text, tw.user.name,@tweet_html)
-        @tweets << tweet
+      get_tweet_nums.each do |get_tweet_num|
+        scale = false
+        begin
+          @tweets = []
+          tweet_text = ""
+          tweets.take(get_tweet_num).each do |tw|
+            @tweet_html = get_tweet_html(tw.url.to_s)
+            tweet_text << tw.full_text + mark
+            tweet = Tweet.new(tw.full_text, tw.user.name,@tweet_html)
+            @tweets << tweet
+          end
+          @tweets = scoring(tweet_text, @tweets)
+        rescue
+          scale = true
+        end
+        break if not scale
       end
-      @tweets = scoring(tweet_text, @tweets)
       @tweets.sort_by! { |tweet| tweet.score }
     end
 
