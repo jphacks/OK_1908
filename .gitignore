@@ -32,6 +32,7 @@
 
 .DS_Store
 Gemfile.lock
+*.swp
 
 # ignore ENV files
 .env
