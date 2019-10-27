@@ -1,4 +1,6 @@
 class MorphemesController < ApplicationController
+  require 'open-uri'
+
   def analysis(sentence)
     body = {"app_id": ENV['GOO_APP_ID'],
             "request_id": "record001",
@@ -29,7 +31,7 @@ class MorphemesController < ApplicationController
   def search
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['CONSUMER_KEY']
-      config.consumer_secret     = ENV['CONSUMER_SECRET'] 
+      config.consumer_secret     = ENV['CONSUMER_SECRET']
       config.access_token        = ENV['ACCESS_TOKEN']
       config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
     end
@@ -48,7 +50,7 @@ class MorphemesController < ApplicationController
         @tweets << tweet
       end
       @tweets = scoring(tweet_text, @tweets)
-    end  
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -56,8 +58,25 @@ class MorphemesController < ApplicationController
     end
   end
 
+
   private
+
   def mark
     '*'*10
+  end
+
+  def search_user_age(user_id)
+    search_url = URI.escape("https://twitter.com/#{user_id}")
+    doc = setup_doc(search_url)
+    doc.xpath('//*[contains(@class, "ProfileHeaderCard-birthdateText u-dir")]').children
+  end
+
+  def setup_doc(url)
+    charset = 'utf-8'
+    html = open(url) { |f| f.read }
+    doc = Nokogiri::HTML.parse(html, nil, charset)
+    # <br>タグを改行（\n）に変えて置くとスクレイピングしやすくなる。
+    doc.search('br').each { |n| n.replace("\n") }
+    doc
   end
 end
