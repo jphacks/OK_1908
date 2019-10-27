@@ -18,7 +18,7 @@
 
     <%= form_with url: root_path, method: :get, local: true do |f| %>
       <div class="input-group">
-        <%= f.text_field :keyword, class: "form-control" %>
+        <%= f.text_field :sentence, class: "form-control" %>
         <span class="input-group-btn">
           <%= button_tag "検索", type: 'submit', class: "btn btn-primary" %>
         </span>
@@ -29,6 +29,8 @@
     <%#= f.submit %>
 
     <a class="twitter-timeline" href="https://twitter.com/TwitterDev/timelines/539487832448843776?ref_src=twsrc%5Etfw">National Park Tweets - Curated tweets by TwitterDev</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <%= @res.body %>
   </div>
 </main>
 
