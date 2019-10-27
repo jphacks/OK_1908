@@ -24,6 +24,10 @@ class MorphemesController < ApplicationController
     tweets
   end
 
+  def get_tweet_html(tweet_url)
+    '<blockquote class="twitter-tweet"><a href="'+tweet_url+'?ref_src=twsrc%5Etfw"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
+  end
+
   def search
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['CONSUMER_KEY']
@@ -32,13 +36,15 @@ class MorphemesController < ApplicationController
       config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
     end
 
+    get_tweet_num = 1
     @tweets = []
     tweet_text = ""
     since_id = nil
     if params[:keyword].present?
-      tweets = client.search(params[:keyword], count: 250, result_type: "recent", exclude: "retweets", since_id: since_id)
+      tweets = client.search(params[:keyword], count: get_tweet_num, result_type: "recent", exclude: "retweets", since_id: since_id)
       # 取得したツイートをモデルに渡す
-      tweets.take(250).each do |tw|
+      tweets.take(get_tweet_num).each do |tw|
+        @tweet_html = get_tweet_html(tw.url.to_s)
         tweet_text << tw.full_text + mark
         tweet = Tweet.new(tw.full_text, tw.user.name)
         @tweets << tweet
