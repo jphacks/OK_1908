@@ -22,37 +22,37 @@
         </span>
       </div>
     <% end %>
-    <%#= form_with url: root_path, method: :get, local: true do |f| %>
-    <%#= f.text_field :sentence %>
-    <%#= f.submit %>
-    <div class="card bg-light m-5">
-      <div class="card-title m-5">
-        <h3 class="text-center">高評価と予想されるtweet</h3>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <% @tweets.reverse.slice(0..2).each do |tweet| %>
-            <div class="col-md-4">
-              <%== tweet.tweet_html %>
-            </div>
-         <% end %>
+
+    <% if @tweets.present? %>
+      <div class="card bg-light m-5">
+        <div class="card-title m-5">
+          <h3 class="text-center">高評価と予想されるtweet</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @tweets.reverse.slice(0..2).each do |tweet| %>
+              <div class="col-md-4">
+                <%== tweet.tweet_html %>
+              </div>
+           <% end %>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card bg-light m-5">
-      <div class="card-title m-5">
-        <h3 class="text-center">低評価と予想されるtweet</h3>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <% @tweets.slice(0..2).each do |tweet| %>
-            <div class="col-md-4">
-              <%== tweet.tweet_html %>
-            </div>
-         <% end %>
+      <div class="card bg-light m-5">
+        <div class="card-title m-5">
+          <h3 class="text-center">低評価と予想されるtweet</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @tweets.slice(0..2).each do |tweet| %>
+              <div class="col-md-4">
+                <%== tweet.tweet_html %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </main>
 

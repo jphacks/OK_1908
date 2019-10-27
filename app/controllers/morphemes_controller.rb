@@ -34,7 +34,7 @@ class MorphemesController < ApplicationController
       config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
     end
 
-    get_tweet_num = 250
+    get_tweet_num = 150
     @tweets = []
     tweet_text = ""
     since_id = nil
