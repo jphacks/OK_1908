@@ -1,4 +1,5 @@
 class MorphemesController < ApplicationController
+
   require 'open-uri'
 
   def analysis(sentence)
@@ -14,9 +15,6 @@ class MorphemesController < ApplicationController
   end
 
   def scoring(tweet_text, tweets)
-    if tweet_text.nil?
-      return tweets
-    end
     tweet_text_list = analysis(tweet_text).flatten
     tweet_text_list.split(mark).each_with_index do |tweet, i|
       tweets[i].score = Posinega.where(word: tweet).sum(:score) if tweets[i].present?
@@ -36,7 +34,7 @@ class MorphemesController < ApplicationController
       config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
     end
 
-    get_tweet_num = 1
+    get_tweet_num = 250
     @tweets = []
     tweet_text = ""
     since_id = nil
@@ -46,10 +44,11 @@ class MorphemesController < ApplicationController
       tweets.take(get_tweet_num).each do |tw|
         @tweet_html = get_tweet_html(tw.url.to_s)
         tweet_text << tw.full_text + mark
-        tweet = Tweet.new(tw.full_text, tw.user.name)
+        tweet = Tweet.new(tw.full_text, tw.user.name,@tweet_html)
         @tweets << tweet
       end
       @tweets = scoring(tweet_text, @tweets)
+      @tweets.sort_by! { |tweet| tweet.score }
     end
 
     respond_to do |format|
