@@ -1,6 +1,40 @@
-<%= form_with url: root_path, method: :get, local: true do |f| %>
-  <%= f.text_field :sentence %>
-  <%= f.submit %>
-<% end %>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>タイトル</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body>
 
-<%= @res.body %>
+<main role="main" class="container">
+  <div class="starter-template">
+    <h1>ついれびゅ!</h1>
+    <p class="lead">READMEにかくやつ</p>
+
+    <%= form_with url: root_path, method: :get, local: true do |f| %>
+      <div class="input-group">
+        <%= f.text_field :sentence, class: "form-control" %>
+        <span class="input-group-btn">
+          <%= button_tag "検索", type: 'submit', class: "btn btn-primary" %>
+        </span>
+      </div>
+    <% end %>
+    <%#= form_with url: root_path, method: :get, local: true do |f| %>
+    <%#= f.text_field :sentence %>
+    <%#= f.submit %>
+
+    <a class="twitter-timeline" href="https://twitter.com/TwitterDev/timelines/539487832448843776?ref_src=twsrc%5Etfw">National Park Tweets - Curated tweets by TwitterDev</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <%= @res.body %>
+  </div>
+</main>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>
